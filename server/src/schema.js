@@ -20,19 +20,19 @@ const typeDefs = gql`
 
   # "MovieType"
   type Movie {
-    poster_path: String
+    posterPath: String
     adult: Boolean
     overview: String
-    release_date: String
-    genre_ids: [String]
+    releaseDate: String
+    genreIDs: [String]
     genres: String
     id: ID
-    original_title: String
-    original_language: String
+    originalTitle: String
+    originalLanguage: String
     title: String
-    backdrop_path: String
+    backdropPath: String
     popularity: Float
-    vote_count: Float
+    voteCount: Float
     duration: Int
     videos: [Video]
   }
