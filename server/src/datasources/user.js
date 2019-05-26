@@ -28,7 +28,7 @@ class UserAPI extends DataSource {
       this.context && this.context.user ? this.context.user.email : emailArg;
     if (!email || !isEmail.validate(email)) return null;
 
-    this.store.then(async connection => {
+    const user = this.store.then(async connection => {
       const user = await User.findOneAndUpdate(
         { name: name, email: email },
         { name: name, email: email },
@@ -36,7 +36,8 @@ class UserAPI extends DataSource {
       ).exec();
       return user ? user : null;
     });
-    // return users && users[0] ? users[0] : null;
+
+    return user;
   }
 }
 
