@@ -23,9 +23,14 @@ class UserAPI extends DataSource {
    * have to be. If the user is already on the context, it will use that user
    * instead
    */
-  async findOrCreateUser({ email: emailArg = {}, name }) {
+  async findOrCreateUser({ email: emailArg } = {}, { name: nameArg } = {}) {
     const email =
       this.context && this.context.user ? this.context.user.email : emailArg;
+
+    console.log(this.context.user);
+    const name =
+      this.context && this.context.user ? this.context.user.name : nameArg;
+
     if (!email || !isEmail.validate(email)) return null;
 
     const user = this.store.then(async connection => {
@@ -38,6 +43,21 @@ class UserAPI extends DataSource {
     });
 
     return user;
+  }
+
+  async addMovie({ movieId }) {
+    const result = this.store.then(async connection => {
+      const user = await User.findByIdAndUpdate(
+        this.context.user._doc._id,
+        {
+          $push: {
+            movies: { movieId }
+          }
+        },
+        { new: true }
+      ).exec();
+      console.log(user);
+    });
   }
 }
 

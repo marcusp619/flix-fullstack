@@ -10,12 +10,9 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  movies: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "movie"
-    }
-  ]
+  movies: {
+    type: Array
+  }
 });
 
 module.exports = mongoose.model("user", userSchema);
