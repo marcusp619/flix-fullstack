@@ -3,9 +3,15 @@ module.exports = {
     movies: async (_, __, { dataSources }) =>
       dataSources.movieAPI.getPopularMovies(),
     movie: async (_, { movieId }, { dataSources }) =>
-      dataSources.movieAPI.getAMovieById({ movieId })
+      dataSources.movieAPI.getAMovieById({ movieId }),
+    me: (_, __, { dataSources }) => dataSources.userAPI.findOrCreateUser()
   },
-
+  Mutation: {
+    login: async (_, { email, name }, { dataSources }) => {
+      const user = await dataSources.userAPI.findOrCreateUser({ email, name });
+      if (user) return Buffer.from(email).toString("base64");
+    }
+  },
   Movie: {
     videos: async (parent, __, { dataSources }) =>
       dataSources.videoAPI.getMovieVideosById(parent.id),

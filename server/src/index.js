@@ -5,6 +5,7 @@ const resolvers = require("./resolvers");
 const isEmail = require("isemail");
 const MovieAPI = require("./datasources/movie");
 const VideoAPI = require("./datasources/video");
+const UserAPI = require("./datasources/user");
 const url = "mongodb://localhost:27017/test";
 const connect = require("./connect");
 const app = express();
@@ -17,16 +18,22 @@ const server = new ApolloServer({
     const email = Buffer.from(auth, "base64").toString("ascii");
 
     if (!isEmail.validate(email)) return { user: null };
-    const user = store.then(async connection => {
-      const match = await user.findOneAndUpdate(email, { upsert: true }).exec();
-      console.log(match);
+    store.then(async connection => {
+      const user = await User.findOneAndUpdate(
+        { name: name, email: email },
+        { name: name, email: email },
+        { upsert: true, new: true, setDefaultsOnInsert: true }
+      ).exec();
+
+      return { user: { ...user } };
     });
   },
   typeDefs,
   resolvers,
   dataSources: () => ({
     movieAPI: new MovieAPI(),
-    videoAPI: new VideoAPI()
+    videoAPI: new VideoAPI(),
+    userAPI: new UserAPI({ store })
   })
 });
 
