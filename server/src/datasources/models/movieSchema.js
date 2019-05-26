@@ -1,21 +1,5 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema({
-  firstName: {
-    type: String,
-    required: true
-  },
-  lastName: {
-    type: String,
-    required: true
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true
-  }
-});
-
 const movieSchema = new mongoose.Schema({
   posterPath: {
     type: String
@@ -62,33 +46,4 @@ const movieSchema = new mongoose.Schema({
   ]
 });
 
-const videoSchema = new mongoose.Schema({
-  id: {
-    type: String
-  },
-  iso6391: {
-    type: String
-  },
-  iso31661: {
-    type: String
-  },
-  key: {
-    type: Number
-  },
-  name: {
-    type: Number
-  },
-  site: {
-    type: String
-  },
-  size: {
-    type: Number
-  },
-  type: {
-    type: String
-  }
-});
-
-module.exports = mongoose.model("user", userSchema);
-module.exports = mongoose.model("video", videoSchema);
 module.exports = mongoose.model("movie", movieSchema);

@@ -5,6 +5,7 @@ module.exports = {
     movie: async (_, { movieId }, { dataSources }) =>
       dataSources.movieAPI.getAMovieById({ movieId })
   },
+
   Movie: {
     videos: async (parent, __, { dataSources }) =>
       dataSources.videoAPI.getMovieVideosById(parent.id),

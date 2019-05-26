@@ -2,16 +2,14 @@ const { ApolloServer } = require("apollo-server-express");
 const express = require("express");
 const typeDefs = require("./schema");
 const resolvers = require("./resolvers");
-const mongoose = require("mongoose");
 const isEmail = require("isemail");
 const MovieAPI = require("./datasources/movie");
 const VideoAPI = require("./datasources/video");
-
+const url = "mongodb://localhost:27017/test";
+const connect = require("./connect");
 const app = express();
 
-const store = mongoose.connect("mongodb://localhost:27017/test", {
-  useNewUrlParser: true
-});
+const store = connect(url);
 
 const server = new ApolloServer({
   context: async ({ req }) => {
@@ -19,6 +17,10 @@ const server = new ApolloServer({
     const email = Buffer.from(auth, "base64").toString("ascii");
 
     if (!isEmail.validate(email)) return { user: null };
+    const user = store.then(async connection => {
+      const match = await user.findOneAndUpdate(email, { upsert: true }).exec();
+      console.log(match);
+    });
   },
   typeDefs,
   resolvers,
