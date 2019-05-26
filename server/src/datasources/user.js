@@ -54,9 +54,41 @@ const movieSchema = new mongoose.Schema({
   voteCount: {
     type: Number
   },
-  videos: {
+  videos: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "video"
+    }
+  ]
+});
+
+const videoSchema = new mongoose.Schema({
+  id: {
+    type: String
+  },
+  iso6391: {
+    type: String
+  },
+  iso31661: {
+    type: String
+  },
+  key: {
+    type: Number
+  },
+  name: {
+    type: Number
+  },
+  site: {
+    type: String
+  },
+  size: {
+    type: Number
+  },
+  type: {
     type: String
   }
 });
 
 module.exports = mongoose.model("user", userSchema);
+module.exports = mongoose.model("video", videoSchema);
+module.exports = mongoose.model("movie", movieSchema);
